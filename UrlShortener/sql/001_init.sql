@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS ShortUrls (
+    Id INT NOT NULL AUTO_INCREMENT,
+    OriginalUrl VARCHAR(2048) NOT NULL,
+    ShortCode VARCHAR(8) NOT NULL,
+    CreatedAtUtc DATETIME NOT NULL,
+    VisitCount BIGINT NOT NULL DEFAULT 0,
+    PRIMARY KEY (Id),
+    UNIQUE KEY UX_ShortUrls_ShortCode (ShortCode)
+);

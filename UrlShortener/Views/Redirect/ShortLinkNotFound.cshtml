@@ -1,0 +1,17 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Ссылка не найдена";
+}
+
+<div class="text-center mt-5">
+    <h1 class="display-6">Короткая ссылка не найдена</h1>
+
+    <p class="text-muted mt-3">
+        Ссылка <code>@Model</code> не существует или была удалена.
+    </p>
+
+    <a asp-controller="Home" asp-action="Index" class="btn btn-primary mt-3">
+        На главную
+    </a>
+</div>

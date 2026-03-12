@@ -1,0 +1,72 @@
+﻿@model UrlShortener.ViewModels.HomeIndexVm
+
+@{
+    ViewData["Title"] = "URL Shortener";
+}
+
+<h1 class="mb-4">URL Shortener</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="CreateForm.OriginalUrl" class="form-label"></label>
+                <input asp-for="CreateForm.OriginalUrl" class="form-control" placeholder="https://example.com/very/long/url" />
+                <span asp-validation-for="CreateForm.OriginalUrl" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Сократить ссылку</button>
+        </form>
+    </div>
+</div>
+
+@if (Model.Items.Count == 0)
+{
+    <div class="alert alert-info">
+        Пока нет ни одной ссылки.
+    </div>
+}
+else
+{
+    <table class="table table-bordered table-striped align-middle">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Длинный URL</th>
+                <th>Короткая ссылка</th>
+                <th>Создано (UTC)</th>
+                <th>Переходы</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Items)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td style="word-break: break-all;">@item.OriginalUrl</td>
+                    <td>
+                        <a href="@($"{Model.BaseUrl}{item.ShortCode}")" target="_blank" rel="noopener noreferrer">
+                            @($"{Model.BaseUrl}{item.ShortCode}")
+                        </a>
+                    </td>
+                    <td>@item.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                    <td>@item.VisitCount</td>
+                    <td class="d-flex gap-2">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Редактировать</a>
+
+                        <form asp-action="Delete" method="post" asp-route-id="@item.Id" onsubmit="return confirm('Удалить ссылку?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

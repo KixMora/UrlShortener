@@ -1,0 +1,45 @@
+﻿@model UrlShortener.ViewModels.EditShortUrlVm
+
+@{
+    ViewData["Title"] = "Редактирование ссылки";
+}
+
+<h1 class="mb-4">Редактирование ссылки</h1>
+
+<div class="card">
+    <div class="card-body">
+        <form asp-action="Edit" method="post">
+            <input asp-for="Id" type="hidden" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label class="form-label">Короткий код</label>
+                <input value="@Model.ShortCode" class="form-control" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="OriginalUrl" class="form-label"></label>
+                <input asp-for="OriginalUrl" class="form-control" />
+                <span asp-validation-for="OriginalUrl" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Создано (UTC)</label>
+                <input value="@Model.CreatedAtUtc.ToString("yyyy-MM-dd HH:mm:ss")" class="form-control" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Количество переходов</label>
+                <input value="@Model.VisitCount" class="form-control" readonly />
+            </div>
+
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a asp-action="Index" class="btn btn-secondary">Назад</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
